@@ -15,7 +15,7 @@ app.use(express.static("public"));
 
 // index list page
 app.get("/", function (req, res) {
-  let sql = `SELECT title, content, slug_id FROM a`;
+  let sql = `SELECT titles, content, slug_id FROM a`;
 
   databaseMysql.query(sql, (error, results, fields) => {
     if (error) {
@@ -43,7 +43,7 @@ app
   .post("/create", function (req, res) {
     if (
       validator.isEmpty(req.body.content) ||
-      validator.isEmpty(req.body.title)
+      validator.isEmpty(req.body.titles)
     ) {
       return res.render("pages/create_post", {
         error: true,
@@ -51,10 +51,10 @@ app
       });
     }
 
-    let { title, content } = req.body;
+    let { titles, content } = req.body;
 
     // membuat slug dari title
-    slug_id = title
+    slug_id = titles
       .toString()
       .toLowerCase()
       .replace(/^-+/, "")
@@ -67,7 +67,7 @@ app
     let sql = `INSERT INTO a SET ?`;
 
     // prepared insert data content mysql
-    let data = { title, content, slug_id };
+    let data = { titles, content, slug_id };
 
     databaseMysql.query(sql, data, (error, results, fields) => {
       if (error) {
@@ -110,7 +110,7 @@ app.get("/read/:slug_id", function (req, res) {
 // Update post page
 app
   .get("/update", function (req, res) {
-    let sql = `SELECT a0, title, slug_id FROM a`;
+    let sql = `SELECT a0, titles, slug_id FROM a`;
 
     databaseMysql.query(sql, (error, results, fields) => {
       if (error) {
@@ -149,7 +149,7 @@ app
     });
   })
   .post("/update/:slug_id", function (req, res) {
-    let { title, content } = req.body;
+    let { titles, content } = req.body;
     let sql = `SELECT * FROM a WHERE slug_id = ? LIMIT 1`;
     let slug_id = req.params.slug_id;
 
@@ -163,10 +163,10 @@ app
       }
     });
 
-    sql = "UPDATE a SET title = ?, content = ? WHERE slug_id = ?";
+    sql = "UPDATE a SET titles = ?, content = ? WHERE slug_id = ?";
     databaseMysql.query(
       sql,
-      [title, content, slug_id],
+      [titles, content, slug_id],
       (error, results, fields) => {
         if (error) {
           console.log(error);

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+    <%- include('../partials/header'); %>
+</header>
+
+<main>
+
+  <%if (typeof(error) !== "undefined" && error === true) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= messages %>
+    </div>
+  <% } %>
+
+  <%if  (typeof(messages) !== "undefined" && typeof(messages) !== "undefined" && error === false) { %>
+    <div class="alert alert-success" role="alert">
+      <%= messages %>
+    </div>
+  <% } %>
+
+  <form action="/update/<%= result.slug_id %>" method="post">
+    <div class="form-group">
+      <label for="exampleInputEmail1">title</label>
+      <input value="<%= result.title %>" name="title" class="form-control" placeholder="Enter title">
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">content</label>
+      <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="3"><%= result.content %></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary mb-2">Post Now</button>
+  </form>
+
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>

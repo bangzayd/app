@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../partials/header'); %></header>
+
+    <main>
+      <div class="jumbotron">
+        <h1>Simple CRUD dengan Nodejs dan Mysql</h1>
+        <p>Selamat datang di CRUD</p>
+      </div>
+
+      <div class="row">
+        <% posts.forEach(function(post) { %>
+        <div class="col-sm-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><%= post.a2 %></h5>
+              <p class="card-text"><%= post.content.slice(0, 10)+'...' %></p>
+              <a href="/read/<%= post.slug_id %>" class="btn btn-primary"
+                >Lanjut Membaca</a
+              >
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </main>
+
+    <footer><%- include('../partials/footer'); %></footer>
+  </body>
+</html>

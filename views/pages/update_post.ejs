@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../partials/header'); %></header>
+
+    <main>
+      <%if (typeof(messages) !== "undefined" && typeof(error) !== "undefined" &&
+      error === false) { %>
+      <div class="alert alert-success" role="alert"><%= messages %></div>
+      <% } %> <%if (typeof(error) !== "undefined" && error === true) { %>
+      <div class="alert alert-danger" role="alert"><%= messages %></div>
+      <% } else { %>
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Slug</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% posts.forEach(function(post) { %>
+          <tr>
+            <th scope="row"><%= post.a0 %></th>
+            <td><%= post.title %></td>
+            <td><%= post.slug_id %></td>
+            <td>
+              <a class="btn btn-info" href="/read/<%= post.slug_id %>">View</a>
+              <a class="btn btn-warning" href="/update/<%= post.slug_id %>"
+                >Update</a
+              >
+              <a class="btn btn-danger" href="/delete/<%= post.slug_id %>"
+                >Delete</a
+              >
+            </td>
+            <td></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+      <% } %>
+    </main>
+
+    <footer><%- include('../partials/footer'); %></footer>
+  </body>
+</html>

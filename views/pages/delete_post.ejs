@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+    <%- include('../partials/header'); %>
+</header>
+
+<main role="main" class="flex-shrink-0">
+    
+  <%if  (typeof(messages) !== "undefined" && typeof(messages) !== "undefined" && error === false) { %>
+    <div class="alert alert-success" role="alert">
+      <%= messages %>
+    </div>
+  <% } %>
+
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
+
+
+

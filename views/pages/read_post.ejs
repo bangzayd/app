@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../partials/header'); %></header>
+
+    <main role="main" class="flex-shrink-0">
+      <%if (typeof(error) !== "undefined" && error === true) { %>
+      <div class="alert alert-danger" role="alert"><%= messages %></div>
+      <% } else { %>
+
+      <div class="container">
+        <h1 class="mt-5"><%= result.title %></h1>
+        <p class="lead"><%= result.content %></p>
+      </div>
+
+      <% } %>
+    </main>
+
+    <footer><%- include('../partials/footer'); %></footer>
+  </body>
+</html>

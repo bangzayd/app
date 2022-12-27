@@ -15,7 +15,7 @@ app.use(express.static("public"));
 
 // index list page
 app.get("/", function (req, res) {
-  let sql = `SELECT titles, content, slug_id FROM a`;
+  let sql = `SELECT titles, kont, slug_id FROM a`;
 
   databaseMysql.query(sql, (error, results, fields) => {
     if (error) {
@@ -42,7 +42,7 @@ app
   })
   .post("/create", function (req, res) {
     if (
-      validator.isEmpty(req.body.content) ||
+      validator.isEmpty(req.body.kont) ||
       validator.isEmpty(req.body.titles)
     ) {
       return res.render("pages/create_post", {
@@ -51,7 +51,7 @@ app
       });
     }
 
-    let { titles, content } = req.body;
+    let { titles, kont } = req.body;
 
     // membuat slug dari title
     slug_id = titles
@@ -67,7 +67,7 @@ app
     let sql = `INSERT INTO a SET ?`;
 
     // prepared insert data content mysql
-    let data = { titles, content, slug_id };
+    let data = { titles, kont, slug_id };
 
     databaseMysql.query(sql, data, (error, results, fields) => {
       if (error) {
@@ -149,7 +149,7 @@ app
     });
   })
   .post("/update/:slug_id", function (req, res) {
-    let { titles, content } = req.body;
+    let { titles, kont } = req.body;
     let sql = `SELECT * FROM a WHERE slug_id = ? LIMIT 1`;
     let slug_id = req.params.slug_id;
 
@@ -163,10 +163,10 @@ app
       }
     });
 
-    sql = "UPDATE a SET titles = ?, content = ? WHERE slug_id = ?";
+    sql = "UPDATE a SET titles = ?, kont = ? WHERE slug_id = ?";
     databaseMysql.query(
       sql,
-      [titles, content, slug_id],
+      [titles, kont, slug_id],
       (error, results, fields) => {
         if (error) {
           console.log(error);

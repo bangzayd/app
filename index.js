@@ -15,7 +15,7 @@ app.use(express.static("public"));
 
 // index list page
 app.get("/", function (req, res) {
-  let sql = `SELECT a2, kont, slug_id FROM a`;
+  let sql = `SELECT a2, a9, slug_id FROM a`;
 
   databaseMysql.query(sql, (error, results, fields) => {
     if (error) {
@@ -41,14 +41,14 @@ app
     res.render("pages/create_post");
   })
   .post("/create", function (req, res) {
-    if (validator.isEmpty(req.body.kont) || validator.isEmpty(req.body.a2)) {
+    if (validator.isEmpty(req.body.a9) || validator.isEmpty(req.body.a2)) {
       return res.render("pages/create_post", {
         error: true,
         messages: "Data title atau content tidak boleh kosong",
       });
     }
 
-    let { a2, kont } = req.body;
+    let { a2, a9 } = req.body;
 
     // membuat slug dari title
     slug_id = a2
@@ -64,7 +64,7 @@ app
     let sql = `INSERT INTO a SET ?`;
 
     // prepared insert data content mysql
-    let data = { a2, kont, slug_id };
+    let data = { a2, a9, slug_id };
 
     databaseMysql.query(sql, data, (error, results, fields) => {
       if (error) {
@@ -146,7 +146,7 @@ app
     });
   })
   .post("/update/:slug_id", function (req, res) {
-    let { a2, kont } = req.body;
+    let { a2, a9 } = req.body;
     let sql = `SELECT * FROM a WHERE slug_id = ? LIMIT 1`;
     let slug_id = req.params.slug_id;
 
@@ -160,8 +160,8 @@ app
       }
     });
 
-    sql = "UPDATE a SET a2 = ?, kont = ? WHERE slug_id = ?";
-    databaseMysql.query(sql, [a2, kont, slug_id], (error, results, fields) => {
+    sql = "UPDATE a SET a2 = ?, a9 = ? WHERE slug_id = ?";
+    databaseMysql.query(sql, [a2, a9, slug_id], (error, results, fields) => {
       if (error) {
         console.log(error);
         return res.render("pages/update_post", {

@@ -15,7 +15,7 @@ app.use(express.static("public"));
 
 // index list page
 app.get("/", function (req, res) {
-  let sql = `SELECT titles, kont, slug_id FROM a`;
+  let sql = `SELECT a2, kont, slug_id FROM a`;
 
   databaseMysql.query(sql, (error, results, fields) => {
     if (error) {
@@ -41,20 +41,17 @@ app
     res.render("pages/create_post");
   })
   .post("/create", function (req, res) {
-    if (
-      validator.isEmpty(req.body.kont) ||
-      validator.isEmpty(req.body.titles)
-    ) {
+    if (validator.isEmpty(req.body.kont) || validator.isEmpty(req.body.a2)) {
       return res.render("pages/create_post", {
         error: true,
         messages: "Data title atau content tidak boleh kosong",
       });
     }
 
-    let { titles, kont } = req.body;
+    let { a2, kont } = req.body;
 
     // membuat slug dari title
-    slug_id = titles
+    slug_id = a2
       .toString()
       .toLowerCase()
       .replace(/^-+/, "")
@@ -67,7 +64,7 @@ app
     let sql = `INSERT INTO a SET ?`;
 
     // prepared insert data content mysql
-    let data = { titles, kont, slug_id };
+    let data = { a2, kont, slug_id };
 
     databaseMysql.query(sql, data, (error, results, fields) => {
       if (error) {
@@ -110,7 +107,7 @@ app.get("/read/:slug_id", function (req, res) {
 // Update post page
 app
   .get("/update", function (req, res) {
-    let sql = `SELECT a0, titles, slug_id FROM a`;
+    let sql = `SELECT a0, a2, slug_id FROM a`;
 
     databaseMysql.query(sql, (error, results, fields) => {
       if (error) {
@@ -149,7 +146,7 @@ app
     });
   })
   .post("/update/:slug_id", function (req, res) {
-    let { titles, kont } = req.body;
+    let { a2, kont } = req.body;
     let sql = `SELECT * FROM a WHERE slug_id = ? LIMIT 1`;
     let slug_id = req.params.slug_id;
 
@@ -163,20 +160,16 @@ app
       }
     });
 
-    sql = "UPDATE a SET titles = ?, kont = ? WHERE slug_id = ?";
-    databaseMysql.query(
-      sql,
-      [titles, kont, slug_id],
-      (error, results, fields) => {
-        if (error) {
-          console.log(error);
-          return res.render("pages/update_post", {
-            error: true,
-            messages: "Ada masalah koneksi Nodejs ke Mysql",
-          });
-        }
+    sql = "UPDATE a SET a2 = ?, kont = ? WHERE slug_id = ?";
+    databaseMysql.query(sql, [a2, kont, slug_id], (error, results, fields) => {
+      if (error) {
+        console.log(error);
+        return res.render("pages/update_post", {
+          error: true,
+          messages: "Ada masalah koneksi Nodejs ke Mysql",
+        });
       }
-    );
+    });
 
     sql = `SELECT * FROM a WHERE slug_id = ? LIMIT 1`;
     databaseMysql.query(sql, slug_id, (error, results, fields) => {

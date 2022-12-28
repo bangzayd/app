@@ -15,7 +15,7 @@ app.use(express.static("public"));
 
 // index list page
 app.get("/", function (req, res) {
-  let sql = `SELECT a2, a9, slug_id FROM a`;
+  let sql = `SELECT a2, a9, a0 FROM a`;
 
   databaseMysql.query(sql, (error, results, fields) => {
     if (error) {
@@ -51,7 +51,7 @@ app
     let { a2, a9 } = req.body;
 
     // membuat slug dari title
-    slug_id = a2
+    a0 = a2
       .toString()
       .toLowerCase()
       .replace(/^-+/, "")
@@ -64,7 +64,7 @@ app
     let sql = `INSERT INTO a SET ?`;
 
     // prepared insert data content mysql
-    let data = { a2, a9, slug_id };
+    let data = { a2, a9, a0 };
 
     databaseMysql.query(sql, data, (error, results, fields) => {
       if (error) {
@@ -83,11 +83,11 @@ app
   });
 
 // Read single post page
-app.get("/read/:slug_id", function (req, res) {
-  let sql = `SELECT * FROM a WHERE slug_id = ? LIMIT 1`;
-  let slug_id = req.params.slug_id;
+app.get("/read/:a0", function (req, res) {
+  let sql = `SELECT * FROM a WHERE a0 = ? LIMIT 1`;
+  let a0 = req.params.a0;
 
-  databaseMysql.query(sql, slug_id, (error, results, fields) => {
+  databaseMysql.query(sql, a0, (error, results, fields) => {
     if (error) {
       console.log(error);
       return res.render("pages/read_post", {
@@ -107,7 +107,7 @@ app.get("/read/:slug_id", function (req, res) {
 // Update post page
 app
   .get("/update", function (req, res) {
-    let sql = `SELECT a0, a2, slug_id FROM a`;
+    let sql = `SELECT a0, a2, a0 FROM a`;
 
     databaseMysql.query(sql, (error, results, fields) => {
       if (error) {
@@ -126,11 +126,11 @@ app
       }
     });
   })
-  .get("/update/:slug_id", function (req, res) {
-    let sql = `SELECT * FROM a WHERE slug_id = ? LIMIT 1`;
-    let slug_id = req.params.slug_id;
+  .get("/update/:a0", function (req, res) {
+    let sql = `SELECT * FROM a WHERE a0 = ? LIMIT 1`;
+    let a0 = req.params.a0;
 
-    databaseMysql.query(sql, slug_id, (error, results, fields) => {
+    databaseMysql.query(sql, a0, (error, results, fields) => {
       if (error) {
         console.log(error);
         return res.render("pages/update_post", {
@@ -145,12 +145,12 @@ app
       }
     });
   })
-  .post("/update/:slug_id", function (req, res) {
+  .post("/update/:a0", function (req, res) {
     let { a2, a9 } = req.body;
-    let sql = `SELECT * FROM a WHERE slug_id = ? LIMIT 1`;
-    let slug_id = req.params.slug_id;
+    let sql = `SELECT * FROM a WHERE a0 = ? LIMIT 1`;
+    let a0 = req.params.a0;
 
-    databaseMysql.query(sql, slug_id, (error, results, fields) => {
+    databaseMysql.query(sql, a0, (error, results, fields) => {
       if (error) {
         console.log(error);
         return res.render("pages/update_post", {
@@ -160,8 +160,8 @@ app
       }
     });
 
-    sql = "UPDATE a SET a2 = ?, a9 = ? WHERE slug_id = ?";
-    databaseMysql.query(sql, [a2, a9, slug_id], (error, results, fields) => {
+    sql = "UPDATE a SET a2 = ?, a9 = ? WHERE a0 = ?";
+    databaseMysql.query(sql, [a2, a9, a0], (error, results, fields) => {
       if (error) {
         console.log(error);
         return res.render("pages/update_post", {
@@ -171,8 +171,8 @@ app
       }
     });
 
-    sql = `SELECT * FROM a WHERE slug_id = ? LIMIT 1`;
-    databaseMysql.query(sql, slug_id, (error, results, fields) => {
+    sql = `SELECT * FROM a WHERE a0 = ? LIMIT 1`;
+    databaseMysql.query(sql, a0, (error, results, fields) => {
       if (error) {
         console.log(error);
         return res.render("pages/update_post", {
@@ -190,11 +190,11 @@ app
   });
 
 // Delete page page
-app.get("/delete/:slug_id", function (req, res) {
-  let sql = "DELETE FROM a WHERE slug_id = ?";
-  let slug_id = req.params.slug_id;
+app.get("/delete/:a0", function (req, res) {
+  let sql = "DELETE FROM a WHERE a0 = ?";
+  let a0 = req.params.a0;
 
-  databaseMysql.query(sql, slug_id, (error, results, fields) => {
+  databaseMysql.query(sql, a0, (error, results, fields) => {
     if (error) {
       console.log(error);
       return res.render("pages/delete_post", {

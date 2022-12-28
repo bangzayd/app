@@ -5,7 +5,7 @@ let dbCon = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "simple_crud",
+  database: "ade",
 });
 
 // Membuat koneksi nodejs ke mysql
